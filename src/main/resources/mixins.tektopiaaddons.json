@@ -17,6 +17,13 @@
     "EntityMinerMixin",
     "EntityVillagerTekMixin",
     "ModEntititiesMixin",
+    "StructureVillagePiecesMixin",
+    "TekHouse2bHandlerMixin",
+    "TekHouse2bMixin",
+    "TekHouse2HandlerMixin",
+    "TekHouse6HandlerMixin",
+    "TekHouse6Mixin",
+    "TekStructureVillagePiecesMixin",
     "TekVillagerMixin",
     "VillageStructureBlacksmithMixin",
     "VillageStructureMerchantStallMixin"

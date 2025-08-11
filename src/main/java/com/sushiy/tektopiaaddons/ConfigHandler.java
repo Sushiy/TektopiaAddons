@@ -26,6 +26,8 @@ public class ConfigHandler {
     public static int VILLAGE_RADIUS = 100;
     public static int VILLAGE_ANIMALPEN_SIZE_PERCENTAGE_MULTIPLIER = 100;
     public static boolean NEW_PLAYERS_RECEIVE_STARTERBOOK = false;
+    public static boolean CHALLENGING_VILLAGE_START_ENABLED = false;
+    public static boolean BASIC_PROFESSION_TOKEN_CRAFTING = false;
 
     public static void init(File file)
     {
@@ -38,6 +40,8 @@ public class ConfigHandler {
         //VILLAGE_RADIUS = config.getInt("Radius of village ", category, 100, 0, 300, "!!Change with caution!!.default 100");
         VILLAGE_ANIMALPEN_SIZE_PERCENTAGE_MULTIPLIER = Math.round(config.getFloat("Multiplier for animals in a pen", category, 1, 0, 10, "default 1")* 100);
         NEW_PLAYERS_RECEIVE_STARTERBOOK = config.getBoolean("Should new players get a starterbook", category, false, "");
+        CHALLENGING_VILLAGE_START_ENABLED = config.getBoolean("Enable challenging village start", category, false, "Reduces initial village size when enabled");
+        BASIC_PROFESSION_TOKEN_CRAFTING = config.getBoolean("Allow crafting for basic profession tokens", category, false, "Enables crafting recipes for Farmer, Lumberjack, Miner, and Guard tokens");
 
 
         category = "Food";
