@@ -7,6 +7,7 @@ import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockOre;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -29,7 +30,7 @@ import java.util.*;
 public class TektopiaAddons {
 	public static final String MODID = "tektopiaaddons";
 	public static final String NAME = "Tekotpia Addons";
-	public static final String VERSION = "1.4.4";
+	public static final String VERSION = "1.4.5";
 	
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -69,6 +70,7 @@ public class TektopiaAddons {
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent preinit) {
 		ConfigHandler.registerConfig(preinit);
+		OreDictionary.registerOre("cropBeetroot",Items.BEETROOT);
 	}
 
 	@Mod.EventHandler
@@ -129,21 +131,23 @@ public class TektopiaAddons {
 			if(Arrays.stream(OreDictionary.getOreIDs(stack)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("crop")))
 			{
 				cropItems.add(item);
-				//LOGGER.info("Found Crop: " + item.getRegistryName());
+				LOGGER.info("Found Crop: " + item.getRegistryName());
 			}
 			if(item instanceof ItemSeeds)
 			{
 				seedItems.add(item);
 				Block b = ((ItemSeeds)item).getPlant(null, null).getBlock();
 				if(b instanceof BlockCrops)
+				{
 					cropBlocks.add((BlockCrops)b);
-				LOGGER.info("Found Seed: " + item.getRegistryName());
+				}
+				//LOGGER.info("Found Seed: " + item.getRegistryName());
 			}
 			else if(item instanceof ItemSeedFood)
 			{
 				seedItems.add(item);
 				cropBlocks.add((BlockCrops) ((ItemSeedFood)item).getPlant(null, null).getBlock());
-				LOGGER.info("Found Seed: " + item.getRegistryName());
+				//LOGGER.info("Found Seed: " + item.getRegistryName());
 			}
 			//FOODITEMS
 			if(item instanceof  ItemFood)
