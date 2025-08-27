@@ -24,7 +24,16 @@
               "size": [ 4, 6, 4 ],
               "rotation": [ 0, 0, 0 ],
               "texOffset": [ 17, 51 ],
-              "children": []
+              "children": [
+              {
+                 "name": "ArmLeftWrist",
+                 "position": [ 0, -1.5, 1 ],
+                 "offsetFromPivot": [ 0, 0, 0 ],
+                 "size": [ 1, 1, 1 ],
+                 "rotation": [ 0, 0, 0 ],
+                 "texOffset": [ 124, 1 ],
+                 "children": []
+               }]
             },
             {
               "name": "ArmorChestIronArmLeft",

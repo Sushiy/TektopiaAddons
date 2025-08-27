@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +31,7 @@ import java.util.*;
 public class TektopiaAddons {
 	public static final String MODID = "tektopiaaddons";
 	public static final String NAME = "Tekotpia Addons";
-	public static final String VERSION = "1.4.5";
+	public static final String VERSION = "1.4.6";
 	
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -66,6 +67,8 @@ public class TektopiaAddons {
 
 	public static HashMap<Item, Integer> smithIngotPriority;
 	public static HashMap<ItemStack, ItemStack> reverseIngotFurnaceList;
+
+	public static HashSet<String> ignoredMonsters;
 
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent preinit) {
@@ -274,6 +277,29 @@ public class TektopiaAddons {
 		{
 			String Version = FMLCommonHandler.instance().findContainerFor("magistuarmory").getVersion();
 			TektopiaAddons.LOGGER.info("magistuarmory " + Version + " detected");
+		}
+
+
+		LOGGER.info(MODID + " Creating entity lists");
+		Collection<EntityEntry> entities = ForgeRegistries.ENTITIES.getValuesCollection();
+		LOGGER.info(MODID + " Found " + entities.size() + " entities");
+
+		ignoredMonsters = new HashSet<String>();
+		for(String ignoredMonster : ConfigHandler.MONSTER_IGNORE_LIST)
+		{
+			LOGGER.info(MODID + " Ignored monster List: " + ignoredMonster);
+		}
+		for(EntityEntry entity : entities)
+		{
+			LOGGER.info(MODID + " Found Entity: " + entity.getName());
+			for(String ignoredMonster : ConfigHandler.MONSTER_IGNORE_LIST)
+			{
+				if(ignoredMonster.equals(entity.getName()))
+				{
+					LOGGER.info(MODID + " Ignored monster Entity: " + entity.getName());
+					ignoredMonsters.add(entity.getName());
+				}
+			}
 		}
 	}
 

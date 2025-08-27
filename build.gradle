@@ -75,6 +75,7 @@ minecraft {
 		"client" {
 			workingDirectory file("./run")
 			mods { "${project.name}" { source sourceSets.main } }
+
 		}
 		
 		"server" {

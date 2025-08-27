@@ -22,6 +22,7 @@
     "VillageStructureMerchantStallMixin"
   ],
   "client": [
+    "LayerVillagerHeldItemMixin",
     "RenderGuardMixin",
     "RenderVillagerMixin"
   ]
