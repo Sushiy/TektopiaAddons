@@ -49,19 +49,20 @@ public abstract class EntityMinerMixin extends EntityVillagerTek {
     @Overwrite(remap = false)
     //Update the isHarvestItem method to pickup oredictionary ores, gems and dusts
     public Predicate<ItemStack> isHarvestItem() {
-        return (p) -> Arrays.stream(OreDictionary.getOreIDs(p)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("ore"))
+        return (p) -> Arrays.stream(OreDictionary.getOreIDs(p)).anyMatch(w -> OreDictionary.getOreName(w).equals("coal"))
+                ||  Arrays.stream(OreDictionary.getOreIDs(p)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("ore"))
                 ||  Arrays.stream(OreDictionary.getOreIDs(p)).anyMatch(y -> OreDictionary.getOreName(y).startsWith("gem"))
                 ||  Arrays.stream(OreDictionary.getOreIDs(p)).anyMatch(z -> OreDictionary.getOreName(z).startsWith("dust"))
                 || tektopiaAddons$isStoneItem().test(p)
                 || super.isHarvestItem().test(p);
     }
 
-    @Inject(method = "entityInit", at = @At("TAIL"), remap = false)
+    @Inject(method = "entityInit", at = @At("TAIL"))
     protected void entityInit(CallbackInfo ci) {
         this.registerAIFilter("mining.stone", MINE_STONE);
     }
 
-    @Inject(method = "initEntityAI", at = @At("TAIL"), remap = false)
+    @Inject(method = "initEntityAI", at = @At("TAIL"))
     protected void initEntityAI(CallbackInfo ci) {
         for(Item item : TektopiaAddons.oreItems)
         {

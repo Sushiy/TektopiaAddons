@@ -200,6 +200,8 @@ public class TektopiaAddons {
 		LOGGER.info("Found " + ingotItems.size() + " ingots");
 
 
+		OreDictionary.registerOre("coal", Items.COAL);
+
 		Collection<Block> blocks = ForgeRegistries.BLOCKS.getValuesCollection();
 		for(Block block : blocks)
 		{
