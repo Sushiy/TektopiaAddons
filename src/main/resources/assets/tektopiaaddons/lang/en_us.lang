@@ -1,5 +1,9 @@
 ai.filter.harvest_tile.modded=Harvest Modded Crops
 ai.filter.plant_tile.modded=Plant Modded Crops
+ai.filter.craft_stone_axe=Craft: Stone Axe
+ai.filter.craft_stone_pickaxe=Craft: Stone Pickaxe
+ai.filter.craft_stone_sword=Craft: Stone Sword
+ai.filter.craft_stone_hoe=Craft: Stone Hoe
 ai.filter.mining.stone=Gather Stone
 
 ai.filter.equip_autochange.armor=Automatically change Armor

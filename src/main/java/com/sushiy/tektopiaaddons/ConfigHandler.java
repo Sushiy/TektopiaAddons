@@ -26,6 +26,7 @@ public class ConfigHandler {
     public static int VILLAGE_RADIUS = 100;
     public static int VILLAGE_ANIMALPEN_SIZE_PERCENTAGE_MULTIPLIER = 100;
     public static boolean NEW_PLAYERS_RECEIVE_STARTERBOOK = false;
+    public static boolean VILLAGER_STONE_SUPPORT_ENABLE = false;
 
     public static String[] MONSTER_IGNORE_LIST;
     public static String[] MONSTER_IGNORE_LIST_DEFAULT = {"Creeper", "Witch", "Enderman"};
@@ -41,6 +42,7 @@ public class ConfigHandler {
         //VILLAGE_RADIUS = config.getInt("Radius of village ", category, 100, 0, 300, "!!Change with caution!!.default 100");
         VILLAGE_ANIMALPEN_SIZE_PERCENTAGE_MULTIPLIER = Math.round(config.getFloat("Multiplier for animals in a pen", category, 1, 0, 10, "default 1")* 100);
         NEW_PLAYERS_RECEIVE_STARTERBOOK = config.getBoolean("Should new players get a starterbook", category, false, "");
+        VILLAGER_STONE_SUPPORT_ENABLE = config.getBoolean("Enable villager stone support", category, false, "Allow villagers to obtain and use stone resources and tools");
 
 
         category = "Food";
