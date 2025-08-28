@@ -126,12 +126,15 @@ public class TektopiaAddons {
 			}
 		}
 
+		OreDictionary.registerOre("cropBeetroot", Items.BEETROOT);
+
 		Random rand = new Random();
         for(Item item : items)
 		{
 			ItemStack stack = new ItemStack(item);
 			if(stack.isEmpty()) continue;
-			if(Arrays.stream(OreDictionary.getOreIDs(stack)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("crop")))
+			if(Arrays.stream(OreDictionary.getOreIDs(stack)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("crop"))
+					||  Arrays.stream(OreDictionary.getOreIDs(stack)).anyMatch(y -> OreDictionary.getOreName(y).equals("sugarcane")))
 			{
 				cropItems.add(item);
 				LOGGER.info("Found Crop: " + item.getRegistryName());
