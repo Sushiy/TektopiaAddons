@@ -46,7 +46,6 @@ public abstract class EntityFarmerMixin extends EntityVillagerTek {
     protected void entityInit(CallbackInfo ci) {
         this.registerAIFilter("harvest_tile.modded", HARVEST_MODDED);
         this.registerAIFilter("plant_tile.modded", PLANT_MODDED);
-        TektopiaAddons.LOGGER.info(TektopiaAddons.MODID + " i added the fucking filters what the fuck!");
     }
 
     @Inject(method = "initEntityAI", at = @At("TAIL"))

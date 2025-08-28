@@ -2,16 +2,14 @@ package com.sushiy.tektopiaaddons.mixin;
 
 import com.pam.harvestcraft.blocks.blocks.BlockBaseGarden;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = BlockBaseGarden.class)
-public class BlockBaseGardeMixin extends BlockBush
+public class BlockBaseGardenMixin extends BlockBush
 {
 
     @Unique

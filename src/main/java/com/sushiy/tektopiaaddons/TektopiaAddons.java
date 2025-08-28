@@ -7,12 +7,14 @@ import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockOre;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +31,7 @@ import java.util.*;
 public class TektopiaAddons {
 	public static final String MODID = "tektopiaaddons";
 	public static final String NAME = "Tekotpia Addons";
-	public static final String VERSION = "1.4.4";
+	public static final String VERSION = "1.4.6";
 	
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -66,9 +68,12 @@ public class TektopiaAddons {
 	public static HashMap<Item, Integer> smithIngotPriority;
 	public static HashMap<ItemStack, ItemStack> reverseIngotFurnaceList;
 
+	public static HashSet<String> ignoredMonsters;
+
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent preinit) {
 		ConfigHandler.registerConfig(preinit);
+		OreDictionary.registerOre("cropBeetroot",Items.BEETROOT);
 	}
 
 	@Mod.EventHandler
@@ -129,21 +134,23 @@ public class TektopiaAddons {
 			if(Arrays.stream(OreDictionary.getOreIDs(stack)).anyMatch(x -> OreDictionary.getOreName(x).startsWith("crop")))
 			{
 				cropItems.add(item);
-				//LOGGER.info("Found Crop: " + item.getRegistryName());
+				LOGGER.info("Found Crop: " + item.getRegistryName());
 			}
 			if(item instanceof ItemSeeds)
 			{
 				seedItems.add(item);
 				Block b = ((ItemSeeds)item).getPlant(null, null).getBlock();
 				if(b instanceof BlockCrops)
+				{
 					cropBlocks.add((BlockCrops)b);
-				LOGGER.info("Found Seed: " + item.getRegistryName());
+				}
+				//LOGGER.info("Found Seed: " + item.getRegistryName());
 			}
 			else if(item instanceof ItemSeedFood)
 			{
 				seedItems.add(item);
 				cropBlocks.add((BlockCrops) ((ItemSeedFood)item).getPlant(null, null).getBlock());
-				LOGGER.info("Found Seed: " + item.getRegistryName());
+				//LOGGER.info("Found Seed: " + item.getRegistryName());
 			}
 			//FOODITEMS
 			if(item instanceof  ItemFood)
@@ -192,6 +199,8 @@ public class TektopiaAddons {
 		LOGGER.info("Found " + gemItems.size() + " gems");
 		LOGGER.info("Found " + ingotItems.size() + " ingots");
 
+
+		OreDictionary.registerOre("coal", Items.COAL);
 
 		Collection<Block> blocks = ForgeRegistries.BLOCKS.getValuesCollection();
 		for(Block block : blocks)
@@ -270,6 +279,29 @@ public class TektopiaAddons {
 		{
 			String Version = FMLCommonHandler.instance().findContainerFor("magistuarmory").getVersion();
 			TektopiaAddons.LOGGER.info("magistuarmory " + Version + " detected");
+		}
+
+
+		LOGGER.info(MODID + " Creating entity lists");
+		Collection<EntityEntry> entities = ForgeRegistries.ENTITIES.getValuesCollection();
+		LOGGER.info(MODID + " Found " + entities.size() + " entities");
+
+		ignoredMonsters = new HashSet<String>();
+		for(String ignoredMonster : ConfigHandler.MONSTER_IGNORE_LIST)
+		{
+			LOGGER.info(MODID + " Ignored monster List: " + ignoredMonster);
+		}
+		for(EntityEntry entity : entities)
+		{
+			LOGGER.info(MODID + " Found Entity: " + entity.getName());
+			for(String ignoredMonster : ConfigHandler.MONSTER_IGNORE_LIST)
+			{
+				if(ignoredMonster.equals(entity.getName()))
+				{
+					LOGGER.info(MODID + " Ignored monster Entity: " + entity.getName());
+					ignoredMonsters.add(entity.getName());
+				}
+			}
 		}
 	}
 
