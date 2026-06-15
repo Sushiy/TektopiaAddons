@@ -2,7 +2,6 @@ package com.sushiy.tektopiaaddons.mixin;
 
 import com.sushiy.tektopiaaddons.ConfigHandler;
 import com.sushiy.tektopiaaddons.TektopiaAddons;
-import javafx.util.Pair;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
