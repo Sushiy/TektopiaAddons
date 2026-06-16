@@ -1,5 +1,6 @@
 package com.sushiy.tektopiaaddons.mixin;
 
+import com.sushiy.tektopiaaddons.OreDictStack;
 import com.sushiy.tektopiaaddons.TektopiaAddons;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
@@ -19,8 +20,11 @@ import net.tangotek.tektopia.storage.ItemDesire;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(value = EntityFarmer.class)
@@ -124,5 +128,22 @@ public abstract class EntityFarmerMixin extends EntityVillagerTek {
     @Overwrite(remap = false)
     public Predicate<ItemStack> isHarvestItem() {
         return (p) -> p.getItem() instanceof ItemSeedFood || TektopiaAddons.cropItems.contains(p.getItem()) || super.isHarvestItem().test(p);
+    }
+
+    @ModifyArg(
+            method = "buildCraftSet",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/tangotek/tektopia/entities/EntityFarmer$2;<init>(Lnet/tangotek/tektopia/ProfessionType;Ljava/lang/String;ILnet/minecraft/item/ItemStack;Ljava/util/List;IILjava/util/function/Function;ILjava/util/function/Predicate;)V",
+                    ordinal = 0
+            ),
+            index = 4,
+            remap = false
+    )
+    private static List<ItemStack> woodenHoeIngredientsModify(List<ItemStack> original) {
+        List<Object> ingredients = new ArrayList<>();
+        ingredients.add(new OreDictStack("logWood"));
+
+        return (List<ItemStack>)(List<?>) ingredients;
     }
 }

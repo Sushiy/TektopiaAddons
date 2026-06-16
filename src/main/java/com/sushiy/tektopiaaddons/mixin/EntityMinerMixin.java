@@ -1,6 +1,7 @@
 package com.sushiy.tektopiaaddons.mixin;
 
 import com.sushiy.tektopiaaddons.ConfigHandler;
+import com.sushiy.tektopiaaddons.OreDictStack;
 import com.sushiy.tektopiaaddons.TektopiaAddons;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -22,6 +23,7 @@ import net.tangotek.tektopia.storage.ItemDesire;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Mixin(value = EntityMiner.class)
@@ -105,26 +108,26 @@ public abstract class EntityMinerMixin extends EntityVillagerTek {
     private static void buildCraftSetInject(CallbackInfoReturnable<List<Recipe>> cir) {
         if (!ConfigHandler.VILLAGER_STONE_SUPPORT_ENABLE) return;
         List<Recipe> recipes = new ArrayList<>();
-        List<ItemStack> ingredients = new ArrayList<>();
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 3));
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
-        Recipe recipe = new Recipe(ProfessionType.MINER, "craft_stone_pickaxe", 2, new ItemStack(Items.STONE_PICKAXE, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> !hasBetterPick(v));
+        List<Object> ingredients = new ArrayList<>();
+        ingredients.add(new OreDictStack("cobblestone", 3));
+        ingredients.add(new OreDictStack("logWood"));
+        Recipe recipe = new Recipe(ProfessionType.MINER, "craft_stone_pickaxe", 2, new ItemStack(Items.STONE_PICKAXE, 1), (List<ItemStack>)(List<?>) ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> !hasBetterPick(v));
         recipes.add(recipe);
         recipes.addAll(cir.getReturnValue());
         ingredients = new ArrayList<>();
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 3));
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
-        recipe = new Recipe(ProfessionType.MINER, "craft_stone_axe", 2, new ItemStack(Items.STONE_AXE, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
+        ingredients.add(new OreDictStack("cobblestone", 3));
+        ingredients.add(new OreDictStack("logWood"));
+        recipe = new Recipe(ProfessionType.MINER, "craft_stone_axe", 2, new ItemStack(Items.STONE_AXE, 1), (List<ItemStack>)(List<?>) ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
         recipes.add(recipe);
         ingredients = new ArrayList<>();
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 2));
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
-        recipe = new Recipe(ProfessionType.MINER, "craft_stone_sword", 2, new ItemStack(Items.STONE_SWORD, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
+        ingredients.add(new OreDictStack("cobblestone", 2));
+        ingredients.add(new OreDictStack("logWood"));
+        recipe = new Recipe(ProfessionType.MINER, "craft_stone_sword", 2, new ItemStack(Items.STONE_SWORD, 1), (List<ItemStack>)(List<?>) ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
         recipes.add(recipe);
         ingredients = new ArrayList<>();
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 2));
-        ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
-        recipe = new Recipe(ProfessionType.MINER, "craft_stone_hoe", 2, new ItemStack(Items.STONE_HOE, 1), ingredients, 2, 3, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
+        ingredients.add(new OreDictStack("cobblestone", 2));
+        ingredients.add(new OreDictStack("logWood"));
+        recipe = new Recipe(ProfessionType.MINER, "craft_stone_hoe", 2, new ItemStack(Items.STONE_HOE, 1), (List<ItemStack>)(List<?>) ingredients, 2, 3, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
         recipes.add(recipe);
         cir.setReturnValue(recipes);
     }
@@ -137,5 +140,80 @@ public abstract class EntityMinerMixin extends EntityVillagerTek {
             }
         }
         return false;
+    }
+
+    @ModifyArg(
+            method = "buildCraftSet",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/tangotek/tektopia/entities/EntityMiner$2;<init>(Lnet/tangotek/tektopia/ProfessionType;Ljava/lang/String;ILnet/minecraft/item/ItemStack;Ljava/util/List;IILjava/util/function/Function;ILjava/util/function/Predicate;)V",
+                    ordinal = 0
+            ),
+            index = 4,
+            remap = false
+    )
+    private static List<ItemStack> woodenPickaxeIngredientsModify(List<ItemStack> original) {
+        List<Object> ingredients = new ArrayList<>();
+        ingredients.add(new OreDictStack("logWood"));
+
+        return (List<ItemStack>)(List<?>) ingredients;
+    }
+
+    @ModifyArg(
+            method = "buildCraftSet",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/tangotek/tektopia/entities/crafting/Recipe;<init>(Lnet/tangotek/tektopia/ProfessionType;Ljava/lang/String;ILnet/minecraft/item/ItemStack;Ljava/util/List;IILjava/util/function/Function;ILjava/util/function/Predicate;)V",
+                    ordinal = 0
+            ),
+            index = 4,
+            remap = false
+    )
+    private static List<ItemStack> charcoalTorchIngredientsModify(List<ItemStack> original) {
+        List<Object> ingredients = new ArrayList<>();
+        ingredients.add(new OreDictStack("logWood"));
+        ingredients.add(new ItemStack(Items.COAL, 8));
+
+        return (List<ItemStack>)(List<?>) ingredients;
+    }
+
+    @ModifyArg(
+            method = "buildCraftSet",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/tangotek/tektopia/entities/crafting/Recipe;<init>(Lnet/tangotek/tektopia/ProfessionType;Ljava/lang/String;ILnet/minecraft/item/ItemStack;Ljava/util/List;IILjava/util/function/Function;ILjava/util/function/Predicate;)V",
+                    ordinal = 1
+            ),
+            index = 4,
+            remap = false
+    )
+    private static List<ItemStack> coalTorchIngredientsModify(List<ItemStack> original) {
+        List<Object> ingredients = new ArrayList<>();
+        ingredients.add(new OreDictStack("logWood"));
+        ingredients.add(new ItemStack(Items.COAL, 8, 1));
+
+        return (List<ItemStack>)(List<?>) ingredients;
+    }
+
+    @ModifyArg(
+            method = "initEntityAI",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/tangotek/tektopia/entities/ai/EntityAISmelting;<init>(Lnet/tangotek/tektopia/entities/EntityVillagerTek;[Lnet/tangotek/tektopia/structures/VillageStructureType;Ljava/util/function/Predicate;Ljava/util/function/Function;Ljava/lang/Runnable;)V",
+                    ordinal = 0
+            ),
+            index = 3,
+            remap = false
+    )
+    private static Function<ItemStack, Integer> bestSmeltableModify(Function<ItemStack, Integer> original) {
+        int oreID = OreDictionary.getOreID("logWood");
+        return p -> {
+            if (p.isEmpty()) return 0;
+
+            for (int id : OreDictionary.getOreIDs(p)) {
+                if (id == oreID) return 1;
+            }
+            return 0;
+        };
     }
 }

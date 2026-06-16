@@ -1,5 +1,7 @@
 ai.filter.harvest_tile.modded=Harvest Modded Crops
 ai.filter.plant_tile.modded=Plant Modded Crops
+ai.filter.chop_tree_acacia=Chop Tree: Acacia
+ai.filter.chop_tree_dark_oak=Chop Tree: Dark Oak
 ai.filter.craft_stone_axe=Craft: Stone Axe
 ai.filter.craft_stone_pickaxe=Craft: Stone Pickaxe
 ai.filter.craft_stone_sword=Craft: Stone Sword

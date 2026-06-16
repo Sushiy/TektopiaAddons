@@ -1,6 +1,7 @@
 package com.sushiy.tektopiaaddons.mixin;
 
 import com.sushiy.tektopiaaddons.ConfigHandler;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.tangotek.tektopia.ProfessionType;
@@ -29,6 +30,8 @@ public abstract class VillageDataMixin {
             remap = false
     )
     private void initEconomyInject(CallbackInfo ci) {
+        this.economy.addItem(new ItemValue(new ItemStack(Blocks.LOG2, 64, BlockPlanks.EnumType.ACACIA.getMetadata() - 4), 4, 22, ProfessionType.LUMBERJACK));
+        this.economy.addItem(new ItemValue(new ItemStack(Blocks.LOG2, 64, BlockPlanks.EnumType.DARK_OAK.getMetadata() - 4), 4, 22, ProfessionType.LUMBERJACK));
         if (!ConfigHandler.VILLAGER_STONE_SUPPORT_ENABLE) return;
         this.economy.addItem(new ItemValue(new ItemStack(Blocks.COBBLESTONE, 64), 4, 22, ProfessionType.MINER));
     }
