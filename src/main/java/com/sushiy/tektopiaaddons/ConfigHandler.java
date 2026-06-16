@@ -31,7 +31,7 @@ public class ConfigHandler {
     public static boolean VILLAGER_STONE_SUPPORT_ENABLE = false;
 
     public static String[] MONSTER_IGNORE_LIST;
-    public static String[] MONSTER_IGNORE_LIST_DEFAULT = {"Creeper", "Witch", "Enderman"};
+    public static String[] MONSTER_IGNORE_LIST_DEFAULT = {"Witch", "Enderman"};
 
     public static void init(File file)
     {

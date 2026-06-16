@@ -19,6 +19,7 @@
     "ModEntititiesMixin",
     "TekVillagerMixin",
     "VillageDataMixin",
+    "VillageMixin",
     "VillageStructureBlacksmithMixin",
     "VillageStructureMerchantStallMixin"
   ],

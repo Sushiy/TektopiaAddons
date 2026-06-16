@@ -104,24 +104,24 @@ public abstract class EntityMinerMixin extends EntityVillagerTek {
     @Inject(method = "buildCraftSet", at = @At("RETURN"), cancellable = true, remap = false)
     private static void buildCraftSetInject(CallbackInfoReturnable<List<Recipe>> cir) {
         if (!ConfigHandler.VILLAGER_STONE_SUPPORT_ENABLE) return;
-        List<Recipe> recipes = new ArrayList();
-        List<ItemStack> ingredients = new ArrayList();
+        List<Recipe> recipes = new ArrayList<>();
+        List<ItemStack> ingredients = new ArrayList<>();
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 3));
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
         Recipe recipe = new Recipe(ProfessionType.MINER, "craft_stone_pickaxe", 2, new ItemStack(Items.STONE_PICKAXE, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> !hasBetterPick(v));
         recipes.add(recipe);
         recipes.addAll(cir.getReturnValue());
-        ingredients = new ArrayList();
+        ingredients = new ArrayList<>();
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 3));
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
         recipe = new Recipe(ProfessionType.MINER, "craft_stone_axe", 2, new ItemStack(Items.STONE_AXE, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
         recipes.add(recipe);
-        ingredients = new ArrayList();
+        ingredients = new ArrayList<>();
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 2));
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
         recipe = new Recipe(ProfessionType.MINER, "craft_stone_sword", 2, new ItemStack(Items.STONE_SWORD, 1), ingredients, 1, 1, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
         recipes.add(recipe);
-        ingredients = new ArrayList();
+        ingredients = new ArrayList<>();
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.COBBLESTONE), 2));
         ingredients.add(new ItemStack(Item.getItemFromBlock(Blocks.LOG), 1, 99));
         recipe = new Recipe(ProfessionType.MINER, "craft_stone_hoe", 2, new ItemStack(Items.STONE_HOE, 1), ingredients, 2, 3, (v) -> v.getSkillLerp(ProfessionType.MINER, 9, 3), 1, (v) -> hasBetterPick(v));
